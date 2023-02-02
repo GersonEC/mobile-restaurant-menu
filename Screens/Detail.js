@@ -1,6 +1,7 @@
 import { Button, Text, View } from 'react-native';
 
-function Detail({ navigation }) {
+//navigation and route are intrinsic props for all pages of React Navigation
+function Detail({ navigation, route }) {
   const onButtonPress = () => {
     navigation.navigate('Home');
   };

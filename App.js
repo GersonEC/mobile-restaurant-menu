@@ -1,19 +1,44 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StyleSheet } from 'react-native';
+import { Button, Image, StyleSheet } from 'react-native';
 import Detail from './Screens/Detail';
 import Home from './Screens/Home';
 
 const Stack = createNativeStackNavigator();
 
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 30, height: 30 }}
+      source={require('./assets/favicon.png')}
+    />
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
+      <Stack.Navigator
+        initialRouteName='Home'
+        screenOptions={{
+          headerTitle: (props) => <LogoTitle {...props} />,
+          headerStyle: { backgroundColor: 'green' },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontSize: 20,
+          },
+          headerRight: () => (
+            <Button color='white' title='hello' onPress={() => alert('Hey!')} />
+          ),
+        }}
+      >
         <Stack.Screen
           name='Home'
           component={Home}
-          options={{ title: 'Welcome' }}
+          initialParams={{ restaurant: 'Fan Wu' }}
+          options={{
+            title: 'Welcome',
+          }}
         />
         <Stack.Screen name='Detail' component={Detail} />
       </Stack.Navigator>
