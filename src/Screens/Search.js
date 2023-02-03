@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-const Search = () => {
+const Search = ({ onSearchEndEditing }) => {
   const [text, setText] = React.useState('');
 
   const onTextChange = (newText) => setText(newText);
@@ -9,10 +9,13 @@ const Search = () => {
   return (
     <View style={styles.container}>
       <TextInput
+        autoCapitalize='none'
+        autoCorrect={false}
         style={styles.search}
         placeholder='Search restaurant'
         value={text}
-        onChange={onTextChange}
+        onChangeText={setText}
+        onEndEditing={() => onSearchEndEditing(text)}
       />
     </View>
   );
@@ -24,8 +27,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   search: {
-    borderWidth: '2px',
-    borderColor: 'grey',
+    backgroundColor: 'lightgrey',
     padding: 8,
     borderRadius: 8,
     height: 40,

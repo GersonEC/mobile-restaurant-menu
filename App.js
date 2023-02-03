@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, StyleSheet } from 'react-native';
-import Detail from './Screens/Detail';
-import Home from './Screens/Home';
+import Detail from './src/Screens/Detail';
+import Home from './src/Screens/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,14 +32,7 @@ export default function App() {
           ),
         }}
       >
-        <Stack.Screen
-          name='Home'
-          component={Home}
-          initialParams={{ restaurant: 'Fan Wu' }}
-          options={{
-            title: 'Welcome',
-          }}
-        />
+        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Detail' component={Detail} />
       </Stack.Navigator>
     </NavigationContainer>
