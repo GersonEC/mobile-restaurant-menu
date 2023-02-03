@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import Detail from './src/Screens/Detail';
 import Home from './src/Screens/Home';
 
@@ -27,9 +27,6 @@ export default function App() {
           headerTitleStyle: {
             fontSize: 20,
           },
-          headerRight: () => (
-            <Button color='white' title='hello' onPress={() => alert('Hey!')} />
-          ),
         }}
       >
         <Stack.Screen name='Home' component={Home} />

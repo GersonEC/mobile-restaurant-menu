@@ -12,23 +12,39 @@ function Home({ navigation }) {
     navigation.navigate('Detail');
   };
 
-  const onSearchEndEditing = async (text) => {
-    try {
-      const response = await yelp.get('/search', {
-        location: 'San Francisco',
-        term: text,
-        limit: 50,
-      });
-      setResults(response.data.businesses);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  // const onSearchEndEditing = async (text) => {
+  //   try {
+  //     const response = await yelp.get('/search?location=milan', {
+  //       term: text,
+  //       limit: 1,
+  //     });
+  //     setResults(response.data.businesses);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
+
+  const onSearchEndEditing = () => {};
+
+  React.useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const response = await yelp.get('/search?location=milan', {
+          term: 'pasta',
+          limit: 1,
+        });
+        setResults(response.data.businesses);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchResults();
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Search onSearchEndEditing={onSearchEndEditing} />
-      <RestaurantList />
+      <RestaurantList list={results} />
       <Text>We have found {results.length}</Text>
       {error && <Text>{error}</Text>}
       <Button title='Go to details' onPress={onButtonPress} />
