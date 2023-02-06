@@ -1,55 +1,62 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import yelp from '../api/yelp';
+import Search from '../components/Search';
 import RestaurantList from './RestaurantList';
-import Search from './Search';
 
 function Home({ navigation }) {
-  const [results, setResults] = React.useState([]);
+  const [costEffectiveList, setCostEffectiveList] = React.useState([]);
+  const [bitPricerList, setBitPricerList] = React.useState([]);
+  const [bigSpenderList, setBigSpenderList] = React.useState([]);
   const [error, setError] = React.useState(null);
 
-  const onButtonPress = () => {
-    navigation.navigate('Detail');
+  const onSearchEndEditing = async (text) => {
+    try {
+      const response = await yelp.get('/search?location=madrid', {
+        term: text,
+        limit: 1,
+      });
+      const allList = response.data.businesses;
+      const costEffective = allList.filter((item) => item.price === '€');
+      const bitPricer = allList.filter((item) => item.price === '€€');
+      const bigSpender = allList.filter((item) => item.price === '€€€');
+      setCostEffectiveList(costEffective);
+      setBitPricerList(bitPricer);
+      setBigSpenderList(bigSpender);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  // const onSearchEndEditing = async (text) => {
-  //   try {
-  //     const response = await yelp.get('/search?location=milan', {
-  //       term: text,
-  //       limit: 1,
-  //     });
-  //     setResults(response.data.businesses);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
-
-  const onSearchEndEditing = () => {};
-
-  React.useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        const response = await yelp.get('/search?location=milan', {
-          term: 'pasta',
-          limit: 1,
-        });
-        setResults(response.data.businesses);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    fetchResults();
-  }, []);
-
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <ScrollView>
       <Search onSearchEndEditing={onSearchEndEditing} />
-      <RestaurantList list={results} />
-      <Text>We have found {results.length}</Text>
-      {error && <Text>{error}</Text>}
-      <Button title='Go to details' onPress={onButtonPress} />
-    </View>
+      {costEffectiveList.length > 0 && (
+        <View>
+          <Text style={styles.heading}>Cost Effective</Text>
+          <RestaurantList list={costEffectiveList} />
+        </View>
+      )}
+      {bitPricerList.length > 0 && (
+        <View>
+          <Text style={styles.heading}>Bit Pricer</Text>
+          <RestaurantList list={bitPricerList} />
+        </View>
+      )}
+      {bigSpenderList.length > 0 && (
+        <View>
+          <Text style={styles.heading}>Big Spender</Text>
+          <RestaurantList list={bigSpenderList} />
+        </View>
+      )}
+    </ScrollView>
   );
 }
 
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 20,
+    fontWeight: '700',
+  },
+});
 export default Home;

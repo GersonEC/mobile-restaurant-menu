@@ -1,21 +1,14 @@
-import { Image, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList } from 'react-native';
+import RestaurantCard from '../components/RestaurantCard';
 
 const RestaurantList = ({ list }) => {
-  const restaurant = list.length > 0 && list[0];
-  console.log({ restaurant });
   return (
-    <TouchableWithoutFeedback>
-      <View>
-        <Text>{restaurant.name}</Text>
-        <Image
-          style={{ height: 150, width: 200, resizeMode: 'contain' }}
-          source={{ uri: restaurant.image_url }}
-        />
-        <Text>{restaurant.location.city}</Text>
-        <Text>{restaurant.rating} Stars</Text>
-        <Text>{restaurant.review_count} Reviews</Text>
-      </View>
-    </TouchableWithoutFeedback>
+    <FlatList
+      horizontal
+      data={list}
+      renderItem={(item) => <RestaurantCard item={item} />}
+      keyExtractor={(item) => item.id}
+    />
   );
 };
 
