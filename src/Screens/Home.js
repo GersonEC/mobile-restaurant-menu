@@ -4,7 +4,7 @@ import yelp from '../api/yelp';
 import Search from '../components/Search';
 import RestaurantList from './RestaurantList';
 
-function Home({ navigation }) {
+function Home() {
   const [costEffectiveList, setCostEffectiveList] = React.useState([]);
   const [bitPricerList, setBitPricerList] = React.useState([]);
   const [bigSpenderList, setBigSpenderList] = React.useState([]);

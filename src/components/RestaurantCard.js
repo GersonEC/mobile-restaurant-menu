@@ -12,7 +12,7 @@ const RestaurantCard = ({ item }) => {
 
   const onRestaurantCardPress = () => {
     navigation.navigate('RestaurantDetail', {
-      itemId: restaurant.id,
+      restaurant: restaurant,
     });
   };
 
